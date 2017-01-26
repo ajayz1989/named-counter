@@ -19,35 +19,36 @@ import com.example.dto.ResponseDTO;
 public class NamedCounterApplicationTests {
 
 	private static final String COUNTER1_ENDPOINT = "/counters/counter1";
+	private static final String COUNTER2_ENDPOINT = "/counters/counter2";
 	@Autowired
 	private TestRestTemplate restTemplate;
 
 	@Test
-	public void contextLoads() {
+	public void shouldGetAllCounters() {
 		ResponseEntity<ResponseDTO> entity = this.restTemplate.getForEntity("/counters", ResponseDTO.class);
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 	}
 
 	@Test
-	public void getCounter() {
+	public void shouldGetCounter() {
 		ResponseEntity<ResponseDTO> entity = this.restTemplate.getForEntity(COUNTER1_ENDPOINT, ResponseDTO.class);
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 	}
 
 	@Test
-	public void addCounter() {
+	public void shouldAddCounter() {
 		ResponseEntity<ResponseDTO> entity = this.restTemplate.postForEntity(COUNTER1_ENDPOINT, null,
 				ResponseDTO.class);
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 	}
 
 	@Test
-	public void updateCounter() {
-		this.restTemplate.put(COUNTER1_ENDPOINT, null);
-		ResponseEntity<ResponseDTO> entity = this.restTemplate.getForEntity(COUNTER1_ENDPOINT, ResponseDTO.class);
+	public void shouldUpdateCounter() {
+		this.restTemplate.postForEntity(COUNTER2_ENDPOINT, null,
+				ResponseDTO.class);
+		ResponseEntity<ResponseDTO> entity = this.restTemplate.getForEntity(COUNTER2_ENDPOINT, ResponseDTO.class);
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(entity.getBody().getCounters().isEmpty()).isEqualTo(false);
-
 	}
 
 }
